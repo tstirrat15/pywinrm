@@ -1,32 +1,25 @@
 from __future__ import unicode_literals
 from contextlib import contextmanager
 import re
-import sys
 import weakref
-is_py2 = sys.version[0] == '2'
-if is_py2:
-    from urlparse import urlsplit, urlunsplit
-else:
-    from urllib.parse import urlsplit, urlunsplit
-
+from six.moves.urllib.parse import urlsplit, urlunsplit
 import requests
-import requests.auth
 from requests.hooks import default_hooks
 from requests.adapters import HTTPAdapter
 
-HAVE_KERBEROS = False
 try:
     import kerberos
     import requests_kerberos
     HAVE_KERBEROS = True
 except ImportError:
+    HAVE_KERBEROS = False
     pass
 
-HAVE_NTLM = False
 try:
     from ntlm import ntlm
     HAVE_NTLM = True
 except ImportError:
+    HAVE_NTLM = False
     pass
 
 from winrm.exceptions import BasicAuthDisabledError, InvalidCredentialsError, \
@@ -40,7 +33,7 @@ if HAVE_KERBEROS:
         '''
         Custom Kerberos authentication provider that allows specifying a realm.
         '''
-    
+
         def __init__(self, mutual_authentication=requests_kerberos.REQUIRED, service='HTTP', realm=None, auth_scheme='Negotiate'):
             super(KerberosAuth, self).__init__(mutual_authentication, service)
             self.realm = realm
@@ -74,6 +67,7 @@ if HAVE_KERBEROS:
                     if result is not None:
                         result = result.replace('Negotiate ', '%s ' % self.auth_scheme)
                     return result
+
 
         def handle_401(self, response, **kwargs):
             with self._replace_regex():
@@ -226,8 +220,10 @@ class MultiAuth(requests.auth.AuthBase):
 
         original_request = response.request.copy()
         www_authenticate = response.headers.get('www-authenticate', '').lower()
-        www_auth_schemes = [x.strip().split()[0] for x in www_authenticate.split(',') if x.strip()]
-        auths_to_try = [x for x in www_auth_schemes if x in [y.lower() for y in self.auth_map.keys()]]
+        www_auth_schemes = [x.strip().split()[0]
+                            for x in www_authenticate.split(',') if x.strip()]
+        auths_to_try = [x for x in www_auth_schemes
+                        if x in [y.lower() for y in self.auth_map.keys()]]
 
         for auth_scheme in auths_to_try:
             for auth_instance in self.auth_map[auth_scheme]:
@@ -247,7 +243,7 @@ class MultiAuth(requests.auth.AuthBase):
                 new_response = adapter.send(prepared_request, **kwargs)
                 new_response.history.append(response)
                 new_response.request = prepared_request
-        
+
                 if new_response.status_code != 401:
                     #print auth_instance, 'successful for', auth_scheme
                     self.current_auth = auth_instance
@@ -269,7 +265,7 @@ class MultiAuth(requests.auth.AuthBase):
 
 
 class Transport(object):
-    
+
     def __init__(
             self, endpoint, username=None, password=None, realm=None,
             service=None, keytab=None, ca_trust_path=None, cert_pem=None,
@@ -292,7 +288,7 @@ class Transport(object):
 
     def build_session(self):
         session = requests.Session()
-        
+
         session.auth = MultiAuth(session)
         if HAVE_KERBEROS:
             for auth_scheme in ('Negotiate', 'Kerberos'):
