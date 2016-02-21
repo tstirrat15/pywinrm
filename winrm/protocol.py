@@ -338,10 +338,10 @@ class Protocol(object):
             if stream_node.text:
                 if stream_node.attrib['Name'] == 'stdout':
                     stdout += str(base64.b64decode(
-                        stream_node.text.encode('ascii')))
+                        stream_node.text.encode('ascii'))).decode()
                 elif stream_node.attrib['Name'] == 'stderr':
                     stderr += str(base64.b64decode(
-                        stream_node.text.encode('ascii')))
+                        stream_node.text.encode('ascii'))).decode()
 
         # We may need to get additional output if the stream has not finished.
         # The CommandState will change from Running to Done like so:
