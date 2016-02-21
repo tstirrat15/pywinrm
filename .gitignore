@@ -22,4 +22,5 @@ htmlcov/
 *.py[co]
 __pycache__
 ~temp/
-*~
+pywinrm.egg-info/
+winrm/.ropeproject/
