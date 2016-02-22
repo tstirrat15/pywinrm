@@ -34,6 +34,7 @@ class Protocol(object):
         @param string ca_trust_path: Certification Authority trust path
         @param string cert_pem: client authentication certificate file path in PEM format  # NOQA
         @param string cert_key_pem: client authentication certificate key file path in PEM format  # NOQA
+        @param int    timeout: how long to wait for a response from the server
         """
         if timeout:
             self.timeout = timeout
