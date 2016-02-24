@@ -47,6 +47,8 @@ class Protocol(object):
             realm=realm, service=service, keytab=keytab,
             ca_trust_path=ca_trust_path, cert_pem=cert_pem,
             cert_key_pem=cert_key_pem, timeout=self.timeout)
+        # Why is this commented?
+        # found it. It's because this logic was hidden in Transport.
         """
         if transport == 'plaintext':
             self.transport = HttpPlaintext(endpoint, username, password)
