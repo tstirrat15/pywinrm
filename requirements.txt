@@ -5,4 +5,6 @@ pytest-pep8
 mock
 httpretty
 requests
+requests_kerberos
+python-ntlm
 six
