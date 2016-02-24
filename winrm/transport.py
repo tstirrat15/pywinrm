@@ -3,7 +3,7 @@ import requests
 import requests_kerberos
 from winrm.exceptions import BasicAuthDisabledError, InvalidCredentialsError, \
     WinRMError
-from .authentication import KerberosAuth, MultiAuth, NtlmAuth
+from .authentication import KerberosAuth, MultiAuth
 
 __all__ = ['Transport']
 
@@ -42,10 +42,6 @@ class Transport(object):
         for auth_scheme in ('Negotiate', 'Kerberos'):
             kerberos_auth = KerberosAuth(mutual_authentication=requests_kerberos.OPTIONAL, realm=self.realm, auth_scheme=auth_scheme)
             session.auth.add_auth(auth_scheme, kerberos_auth)
-
-        for auth_scheme in ('Negotiate', 'NTLM'):
-            ntlm_auth = NtlmAuth(self.username, self.password, session, auth_scheme)
-            session.auth.add_auth(auth_scheme, ntlm_auth)
 
         if self.username and self.password:
             basic_auth = requests.auth.HTTPBasicAuth(self.username, self.password)
