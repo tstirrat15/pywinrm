@@ -6,4 +6,5 @@ mock
 httpretty
 requests
 requests_kerberos
+requests_ntlm
 six
