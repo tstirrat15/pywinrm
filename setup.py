@@ -1,6 +1,7 @@
+from __future__ import unicode_literals
 from distutils.core import setup
 
-__version__ = '0.1.1'
+__version__ = '0.2.1'
 project_name = 'pywinrm'
 
 # PyPi supports only reStructuredText, so pandoc should be installed
@@ -13,7 +14,7 @@ except ImportError:
 
 
 setup(
-    name=project_name,
+    name='pywinrm',
     version=__version__,
     description='Python library for Windows Remote Management',
     long_description=long_description,
@@ -22,9 +23,9 @@ setup(
     author_email='alexey.diyan@gmail.com',
     url='http://github.com/diyan/pywinrm/',
     license='MIT license',
-    packages=('winrm', 'winrm.tests'),
-    package_data={'winrm.tests': ['*.ps1']},
-    install_requires=['xmltodict', 'isodate'],
+    packages=('winrm', 'tests'),
+    package_data={'tests': ['*.ps1']},
+    install_requires=['xmltodict', 'requests'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

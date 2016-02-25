@@ -13,7 +13,7 @@ install:
   - pip install -r requirements.txt
 script:
   # TODO enable pep8 checking
-  # py.test -v --pep8=winrm --cov=winrm --cov-report=term-missing winrm/tests/
-  - py.test -v --cov=winrm --cov-report=term-missing winrm/tests/
+  # py.test -v --cov-report=term-missing --cov=. --pep8
+  - py.test -v --cov-report=term-missing --cov=.
 after_success:
   - coveralls
