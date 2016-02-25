@@ -23,4 +23,10 @@ __pycache__
 ~temp/
 *~
 
+# Pip relics
+pywinrm.egg-info
+
+# Rope
+.ropeproject
+
 /winrm/tests/config.json
