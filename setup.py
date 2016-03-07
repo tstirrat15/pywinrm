@@ -46,4 +46,16 @@ setup(
         'Topic :: System :: Distributed Computing',
         'Topic :: System :: Systems Administration'
     ],
+    install_requires=[
+        "xmltodict",
+        "pytest",
+        "pytest-cov",
+        "pytest-pep8",
+        "mock",
+        "httpretty",
+        "requests",
+        "requests_kerberos",
+        "requests_ntlm",
+        "six"
+    ]
 )
