@@ -25,7 +25,6 @@ setup(
     license='MIT license',
     packages=('winrm', 'tests'),
     package_data={'tests': ['*.ps1']},
-    install_requires=['xmltodict', 'requests'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
