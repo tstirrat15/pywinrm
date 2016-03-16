@@ -337,6 +337,10 @@ class Protocol(object):
 
         res = self.send_message(xmltodict.unparse(req))
         root = ET.fromstring(res)
+        # The stream being referred to here is base64-encoded ASCII,
+        # which is what the WinRM protocol returns. The SOAP protocol
+        # on top returns regular text, which is why we don't have to deal
+        # with this elsewhere.
         stream_nodes = [
             node for node in root.findall('.//*')
             if node.tag.endswith('Stream')]
@@ -346,9 +350,12 @@ class Protocol(object):
             if not stream_node.text:
                 continue
             if stream_node.attrib['Name'] == 'stdout':
-                stdout += str(base64.b64decode(stream_node.text.encode('ascii')))
+                # Move this logic to the request logic?
+                # No, but it might make sense to break this into its own
+                # function.
+                stdout += base64.b64decode(stream_node.text).decode('ascii')
             elif stream_node.attrib['Name'] == 'stderr':
-                stderr += str(base64.b64decode(stream_node.text.encode('ascii')))
+                stderr += base64.b64decode(stream_node.text).decode('ascii')
 
         # We may need to get additional output if the stream has not finished.
         # The CommandState will change from Running to Done like so:
