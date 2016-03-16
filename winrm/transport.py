@@ -84,6 +84,7 @@ class Transport(object):
                     raise InvalidCredentialsError()
             if ex.response:
                 response_text = ex.response.content
+            # Is this just silencing the error?
             else:
                 response_text = ''
             # Per http://msdn.microsoft.com/en-us/library/cc251676.aspx rule 3,
