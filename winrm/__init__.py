@@ -51,6 +51,8 @@ class Session(object):
 
     def _clean_error_msg(self, msg):
         """converts a Powershell CLIXML message to a more human readable string
+           This function extracts only error text - if a command returns as
+           successful, it does not clean the output.
         """
         # TODO prepare unit test, beautify code
         # if the msg does not start with this, return it as is
@@ -63,7 +65,7 @@ class Session(object):
                 msg_xml = self._strip_namespace(msg_xml)
                 root = ET.fromstring(msg_xml)
                 # the S node is the error message, find all S nodes
-                nodes = root.findall("./S")
+                nodes = root.findall("S")
                 new_msg = ""
                 for s in nodes:
                     # append error msg string to result, also
