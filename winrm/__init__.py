@@ -29,6 +29,7 @@ class Session(object):
 
     def run_cmd(self, command, args=()):
         # TODO optimize perf. Do not call open/close shell every time
+        # Sounds like it'd be a good place for a singleton.
         shell_id = self.protocol.open_shell()
         command_id = self.protocol.run_command(shell_id, command, args)
         rs = Response(self.protocol.get_command_output(shell_id, command_id))
