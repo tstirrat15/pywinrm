@@ -56,5 +56,10 @@ setup(
         "requests_kerberos",
         "requests_ntlm",
         "six"
+    ],
+    tests_require=[
+        "pytest",
+        "mock",
+        "httpretty"
     ]
 )
